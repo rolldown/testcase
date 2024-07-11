@@ -25,8 +25,9 @@ jobs:
           echo "COMPILE_TIME=$COMPILE_TIME" >> $GITHUB_OUTPUT
 
   metric:
+    name: Metric 
+    needs: [compile-time]
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout rolldown metric repository
         uses: actions/checkout@v4
@@ -38,7 +39,7 @@ jobs:
 
       - name: Commit benchmark results
         run: |
-          echo 'test' >> metric.json
+          echo $COMPILE_TIME >> metric.json
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add metric.json
@@ -46,3 +47,4 @@ jobs:
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COMPILE_TIME: ${{ needs.compile-time.outputs.time }}
