@@ -1,8 +1,6 @@
 name: Metric and Commit Results
 
 on:
-  schedule:
-      - cron: '0 0 * * *'  # Runs at 00:00 UTC every day
   workflow_dispatch:     # Allows manual triggering of the workflow
 
 jobs:
@@ -10,12 +8,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+  compile-time:
+    name: Compile Time
+    runs-on: ubuntu-latest
+    # if: ${{ github.ref_name == 'main' }}
+    outputs:
+      time: ${{ steps.run.outputs.COMPILE_TIME }}
+    steps:
+      - uses: taiki-e/checkout-action@v1
+      - name: Checkout oxc
+        uses: actions/checkout@v4
+      - uses: Boshen/setup-rust@main
+      - run: cargo clean # build from scatch using local system cache to avoid download from crates.io
+      - id: run
+        run: |
+          /usr/bin/time -f "%e" -o output cargo build --release
+          cat output
+          COMPILE_TIME=$(cat output)
+          echo $COMPILE_TIME
+          echo "COMPILE_TIME=$COMPILE_TIME" >> $GITHUB_OUTPUT
+
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           repository: 'rolldown/metric'
           ref: 'main'
           token:  ${{ secrets.METRIC_SECRET_KEY }}
+
 
       - name: Commit benchmark results
         run: |
