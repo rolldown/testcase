@@ -15,10 +15,9 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
       - uses: Boshen/setup-rust@main
-      - run: cargo clean # build from scatch using local system cache to avoid download from crates.io
+      - run: cargo fetch # build from scatch using local system cache to avoid download from crates.io
       - id: run
         run: |
-          cargo fetch
           /usr/bin/time -f "%e" -o output cargo build --release
           cat output
           COMPILE_TIME=$(cat output)
