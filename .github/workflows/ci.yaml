@@ -15,7 +15,7 @@ jobs:
         with:
           repository: 'rolldown/metric'
           ref: 'main'
-          token:  ${{ secrets.ROLLDOWN_METRIC_PUSH_TOKEN }}
+          token:  ${{ secrets.METRIC_SECRET_KEY }}
 
       - name: Commit benchmark results
         run: |
