@@ -1,0 +1,29 @@
+name: Metric and Commit Results
+
+on:
+  schedule:
+      - cron: '0 0 * * *'  # Runs at 00:00 UTC every day
+  workflow_dispatch:     # Allows manual triggering of the workflow
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          repository: 'rolldown/metric'
+          ref: 'main'
+          token:  ${{ secrets.METRIC_SECRET_KEY }}
+
+      - name: Commit benchmark results
+        run: |
+          echo 'test' >> metric.json
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add metric.json
+          git commit -m "Update benchmark results"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
