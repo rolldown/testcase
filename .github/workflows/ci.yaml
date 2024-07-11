@@ -4,11 +4,6 @@ on:
   workflow_dispatch:     # Allows manual triggering of the workflow
 
 jobs:
-  benchmark:
-    runs-on: ubuntu-latest
-
-    steps:
-
   compile-time:
     name: Compile Time
     runs-on: ubuntu-latest
@@ -17,7 +12,7 @@ jobs:
       time: ${{ steps.run.outputs.COMPILE_TIME }}
     steps:
       - uses: taiki-e/checkout-action@v1
-      - name: Checkout oxc
+      - name: Checkout repo
         uses: actions/checkout@v4
       - uses: Boshen/setup-rust@main
       - run: cargo clean # build from scatch using local system cache to avoid download from crates.io
@@ -29,7 +24,11 @@ jobs:
           echo $COMPILE_TIME
           echo "COMPILE_TIME=$COMPILE_TIME" >> $GITHUB_OUTPUT
 
-      - name: Checkout repository
+  metric:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout rolldown metric repository
         uses: actions/checkout@v4
         with:
           repository: 'rolldown/metric'
