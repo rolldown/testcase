@@ -37,28 +37,31 @@ jobs:
           repository: 'rolldown/metric'
           ref: 'main'
           token:  ${{ secrets.METRIC_SECRET_KEY }}
+
+      - name: Setup Pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 8.10.5
+
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'  # Specify the Node.js version you need
           cache: 'pnpm'
 
+      - name: Install dependencies and push metric
+        run: |
+          pnpm install -r
+          ll ../
+          ll ../../
+          node scripts/compile-time.mjs
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add metric.json
+          git commit -m "Update benchmark results"
+          git push
 
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COMPILE_TIME: ${{ needs.compile-time.outputs.time }}
 
-      # - name: Install dependencies and push metric
-      #   run: |
-      #     pnpm install -r
-      #     pwd
-      #     node scripts/compile-time.mjs
-      #     git config --global user.name 'github-actions[bot]'
-      #     git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-      #     git add metric.json
-      #     git commit -m "Update benchmark results"
-      #     git push
-      #
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     COMPILE_TIME: ${{ needs.compile-time.outputs.time }}
-      #
