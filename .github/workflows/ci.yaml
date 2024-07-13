@@ -2,6 +2,11 @@ name: Metric and Commit Results
 
 on:
   workflow_dispatch:     # Allows manual triggering of the workflow
+  push:
+      branches:
+        - main
+      paths-ignore:
+        - '**/*.md'
 
 jobs:
   compile-time:
