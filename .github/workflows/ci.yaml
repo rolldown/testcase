@@ -52,8 +52,8 @@ jobs:
       - name: Install dependencies and push metric
         run: |
           pnpm install -r
-          ll ../
-          ll ../../
+          ls ../
+          ls ../../
           node scripts/compile-time.mjs
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
