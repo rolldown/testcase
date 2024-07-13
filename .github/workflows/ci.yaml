@@ -52,6 +52,7 @@ jobs:
       - name: Install dependencies and push metric
         run: |
           # pnpm install -r
+          ls
           cat metric.json
           node scripts/compile-time.mjs
           git config --global user.name 'github-actions[bot]'
