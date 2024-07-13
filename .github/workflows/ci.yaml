@@ -63,4 +63,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COMPILE_TIME: ${{ needs.compile-time.outputs.time }}
           COMMIT_HASH: ${{ github.sha }}
+          GIT_REPOSITORY_URL: ${{ github.repository }}
 
