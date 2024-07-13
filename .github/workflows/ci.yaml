@@ -61,6 +61,7 @@ jobs:
           ref: 'main'
           token:  ${{ secrets.METRIC_SECRET_KEY }}
 
+      - name: Commit benchmark results
         run: |
           node scripts/compile-time.mjs
           git config --global user.name 'github-actions[bot]'
@@ -71,4 +72,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COMPILE_TIME: ${{ needs.compile-time.outputs.time }}
-
