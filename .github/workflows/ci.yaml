@@ -9,12 +9,13 @@ on:
         - '**/*.md'
 
 jobs:
-  compile-time:
-    name: Compile Time
+  compile-time-and-binary-size:
+    name: Compile Time and Binary size
     runs-on: ubuntu-latest
     # if: ${{ github.ref_name == 'main' }}
     outputs:
       time: ${{ steps.run.outputs.COMPILE_TIME }}
+      binary_size: ${{ steps.run.outputs.BINARY_SIZE }}
     steps:
       - uses: taiki-e/checkout-action@v1
       - name: Checkout repo
@@ -30,6 +31,10 @@ jobs:
           COMPILE_TIME=$(cat output)
           echo $COMPILE_TIME
           echo "COMPILE_TIME=$COMPILE_TIME" >> $GITHUB_OUTPUT
+
+          BINARY_SIZE=$(ls -l ./target/release/monitor-oxc | awk '{print $5}')
+          echo $BINARY_SIZE
+          echo "BINARY_SIZE=$BINARY_SIZE" >> $GITHUB_OUTPUT
 
   metric:
     name: Metric 
@@ -69,4 +74,5 @@ jobs:
           COMPILE_TIME: ${{ needs.compile-time.outputs.time }}
           COMMIT_HASH: ${{ github.sha }}
           GIT_REPOSITORY_URL: ${{ github.repository }}
+          BINARY_SIZE: ${{ needs.compile-time.outputs.binary_size }}
 
