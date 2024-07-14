@@ -38,7 +38,7 @@ jobs:
 
   metric:
     name: Metric 
-    needs: [compile-time]
+    needs: [compile-time-and-binary-size]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout rolldown metric repository
