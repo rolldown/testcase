@@ -33,9 +33,10 @@ jobs:
           echo "COMPILE_TIME=$COMPILE_TIME\n" >> $GITHUB_OUTPUT
 
           # BINARY_SIZE=$(ls -l ./target/release/librolldown_binding.so | awk '{print $5}')
-          BINARY_SIZE=$(ls -l ./target/release/testcase | awk '{print $5}')
-          echo $BINARY_SIZE
-          echo "BINARY_SIZE=$BINARY_SIZE" >> $GITHUB_OUTPUT
+          # BINARY_SIZE=$(ls -l ./target/release/testcase | awk '{print $5}')
+          # echo $BINARY_SIZE
+          # echo "BINARY_SIZE=$BINARY_SIZE" >> $GITHUB_OUTPUT
+          # echo $GITHUB_OUTPUT
 
   metric:
     name: Metric 
@@ -75,5 +76,5 @@ jobs:
           COMPILE_TIME: ${{ needs.compile-time.outputs.time }}
           COMMIT_HASH: ${{ github.sha }}
           GIT_REPOSITORY_URL: ${{ github.repository }}
-          BINARY_SIZE: ${{ needs.compile-time.outputs.binary_size }}
+          # BINARY_SIZE: ${{ needs.compile-time.outputs.binary_size }}
 
