@@ -32,6 +32,7 @@ jobs:
           echo $COMPILE_TIME
           echo "COMPILE_TIME=$COMPILE_TIME\n" >> $GITHUB_OUTPUT
           echo $GITHUB_OUTPUT
+          cat $GITHUB_OUTPUT
 
           # BINARY_SIZE=$(ls -l ./target/release/librolldown_binding.so | awk '{print $5}')
           # BINARY_SIZE=$(ls -l ./target/release/testcase | awk '{print $5}')
