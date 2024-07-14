@@ -32,7 +32,7 @@ jobs:
           echo $COMPILE_TIME
           echo "COMPILE_TIME=$COMPILE_TIME" >> $GITHUB_OUTPUT
 
-          BINARY_SIZE=$(ls -l ./target/release/monitor-oxc | awk '{print $5}')
+          BINARY_SIZE=$(ls -l ./target/release/librolldown_binding.so | awk '{print $5}')
           echo $BINARY_SIZE
           echo "BINARY_SIZE=$BINARY_SIZE" >> $GITHUB_OUTPUT
 
