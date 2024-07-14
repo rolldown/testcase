@@ -15,7 +15,7 @@ jobs:
     # if: ${{ github.ref_name == 'main' }}
     outputs:
       time: ${{ steps.run.outputs.COMPILE_TIME }}
-      # binary_size: ${{ steps.run.outputs.BINARY_SIZE }}
+      binary_size: ${{ steps.run.outputs.BINARY_SIZE }}
     steps:
       - uses: taiki-e/checkout-action@v1
       - name: Checkout repo
@@ -30,12 +30,12 @@ jobs:
           cat output
           COMPILE_TIME=$(cat output)
           echo $COMPILE_TIME
-          echo "COMPILE_TIME=$COMPILE_TIME" >> $GITHUB_OUTPUT
+          echo "COMPILE_TIME=$COMPILE_TIME\n" >> $GITHUB_OUTPUT
 
           # BINARY_SIZE=$(ls -l ./target/release/librolldown_binding.so | awk '{print $5}')
-          # BINARY_SIZE=$(ls -l ./target/release/testcase | awk '{print $5}')
-          # echo $BINARY_SIZE
-          # echo "BINARY_SIZE=$BINARY_SIZE" >> $GITHUB_OUTPUT
+          BINARY_SIZE=$(ls -l ./target/release/testcase | awk '{print $5}')
+          echo $BINARY_SIZE
+          echo "BINARY_SIZE=$BINARY_SIZE" >> $GITHUB_OUTPUT
 
   metric:
     name: Metric 
